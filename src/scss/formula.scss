@@ -1,0 +1,22 @@
+.excel__formula {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid $border-color;
+  padding: 2px 0;
+
+  .formula {
+    &-icon {
+      font-size: 18px;
+      text-align: center;
+      font-style: italic;
+      border-right: 1px solid $border-color;
+      min-width: $cell-size-x;
+      color: lighten($dark-color, 25);
+    }
+
+    &-input {
+      flex: 1;
+      padding: 4px;
+    }
+  }
+}

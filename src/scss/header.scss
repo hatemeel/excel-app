@@ -1,0 +1,32 @@
+.excel__header {
+  padding: 8px 4px 0;
+  display: flex;
+  justify-content: space-between;
+
+  .input {
+    padding: 2px 7px;
+    border: 1px solid transparent;
+    border-radius: $border-radius;
+    height: $input-height;
+    font-size: 18px;
+
+    &:hover {
+      border: 1px solid $border-color;
+    }
+
+    &:focus {
+      border: 1px solid $active-color;
+      box-shadow: 0 0 0 2px rgba($active-color, 0.25);
+    }
+  }
+
+  .button {
+    &.button-delete {
+      @include button(red);
+    }
+
+    &.button-exit {
+      @include button();
+    }
+  }
+}
