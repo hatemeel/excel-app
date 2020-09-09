@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <title>Excel App</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="excel">
+        <div class="excel__handlers-section">
+          <div class="excel__header">
+            <input
+              type="text"
+              class="input"
+              value="New table"
+              placeholder="Table name"
+            />
+
+            <div>
+              <button class="button button-delete">
+                <i class="ri-delete-bin-7-line"></i>
+              </button>
+
+              <button class="button button-exit">
+                <i class="ri-logout-box-r-line"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="excel__toolbar">
+            <button class="button">
+              <i class="ri-align-left"></i>
+            </button>
+            <button class="button">
+              <i class="ri-align-center"></i>
+            </button>
+            <button class="button">
+              <i class="ri-align-right"></i>
+            </button>
+            <button class="button">
+              <i class="ri-bold"></i>
+            </button>
+            <button class="button">
+              <i class="ri-italic"></i>
+            </button>
+            <button class="button">
+              <i class="ri-underline"></i>
+            </button>
+          </div>
+
+          <div class="excel__formula">
+            <div class="formula-icon">fx</div>
+
+            <div class="formula-input" contenteditable spellcheck="false"></div>
+          </div>
+        </div>
+
+        <div class="excel__table">
+          <div class="row">
+            <div class="row-index"></div>
+
+            <div class="row-data">
+              <div class="column">A</div>
+              <div class="column">B</div>
+              <div class="column">C</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="row-index">1</div>
+
+            <div class="row-data">
+              <div class="cell selected" contenteditable>A:1</div>
+              <div class="cell" contenteditable>B:1</div>
+              <div class="cell" contenteditable>C:1</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="row-index">2</div>
+
+            <div class="row-data">
+              <div class="cell" contenteditable>A:2</div>
+              <div class="cell" contenteditable>B:2</div>
+              <div class="cell" contenteditable>C:2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+.dashboard {
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 4px 5px rgba(black, 0.25);
+  }
+
+  &__new {
+    padding: 25px;
+    background-color: darken($light-color, 7.5);
+  }
+
+  &__create {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 160px;
+    height: 160px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid $border-color;
+    font-size: 20px;
+    text-align: center;
+    color: $dark-color;
+    text-decoration: none;
+
+    &:hover {
+      box-shadow: 0 4px 5px rgba(black, 0.25);
+    }
+  }
+
+  &__logs {
+    padding: 25px;
+
+    &__table {
+      width: 100%;
+      border-spacing: 0;
+
+      th {
+        text-align: start;
+        white-space: nowrap;
+        padding: 5px 10px;
+
+        &.w-fit-content {
+          width: 1px;
+        }
+      }
+
+      tr {
+        &:hover {
+          background-color: $light-color;
+        }
+      }
+
+      td {
+        padding: 15px 10px;
+        font-size: 18px;
+        border-top: 1px solid $border-color;
+
+        a {
+          color: $active-color;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

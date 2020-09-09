@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css');
+@import '~normalize.css';
+
+@import './variables';
+@import './mixins';
+
+@import './header.scss';
+@import './toolbar.scss';
+@import './formula.scss';
+@import './table.scss';
+@import './dashboard.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: unset;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  color: $dark-color;
+}
+
+.excel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+
+  &__handlers-section {
+    position: sticky;
+    top: 0;
+  }
+}
