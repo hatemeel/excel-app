@@ -5,13 +5,20 @@
 
   .row {
     display: flex;
+    width: max-content;
     min-height: 20px;
     height: $cell-size-y;
 
-    &-index {
+    &:first-child {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
+
+    &-info {
       position: sticky;
       left: 0;
-      z-index: 1;
+      z-index: 2;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -20,6 +27,8 @@
       border: 1px solid $border-color;
       border-top: unset;
       border-left: unset;
+      color: lighten($dark-color, 40);
+      user-select: none;
     }
 
     &-data {
@@ -28,9 +37,6 @@
   }
 
   .column {
-    position: sticky;
-    top: 0;
-    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,6 +46,7 @@
     border: 1px solid $border-color;
     border-top: unset;
     border-left: unset;
+    color: lighten($dark-color, 40);
   }
 
   .cell {
