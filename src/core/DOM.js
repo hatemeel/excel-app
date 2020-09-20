@@ -42,18 +42,56 @@ class DOM {
 
     return this;
   }
+
+  get data() {
+    return this.$el.dataset;
+  }
+
+  closest(selector) {
+    return $dom(this.$el.closest(selector));
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect();
+  }
+
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector);
+  }
+
+  css(styles = {}) {
+    Object.keys(styles).map((key) => (this.$el.style[key] = styles[key]));
+    return Object.keys(styles).length ? this : getComputedStyle(this.$el);
+  }
+
+  get class() {
+    return {
+      add: (className) => {
+        this.$el.classList.add(className);
+        return this;
+      },
+      remove: (className) => {
+        this.$el.classList.remove(className);
+        return this;
+      },
+      toggle: (className) => {
+        this.$el.classList.toggle(className);
+        return this;
+      },
+    };
+  }
 }
 
-export function dom(selector) {
+export function $dom(selector) {
   return new DOM(selector);
 }
 
-dom.create = (tagName, classes = '') => {
+$dom.create = (tagName, classes = '') => {
   const el = document.createElement(tagName);
 
   if (classes) {
     el.classList.add(classes);
   }
 
-  return dom(el);
+  return $dom(el);
 };

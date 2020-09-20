@@ -1,16 +1,16 @@
-import { dom } from '../../core/DOM';
+import { $dom } from '../../core/DOM';
 
 export class Excel {
   constructor(selector, options) {
-    this.$el = dom(selector);
+    this.$el = $dom(selector);
     this.components = options.components || [];
   }
 
   getRoot() {
-    const $root = dom.create('div', 'excel');
+    const $root = $dom.create('div', 'excel');
 
     this.components = this.components.map((Component) => {
-      const $el = dom.create('div', Component.className);
+      const $el = $dom.create('div', Component.className);
       const component = new Component($el);
 
       if (component.name) {
