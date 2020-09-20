@@ -55,6 +55,10 @@ class DOM {
     return this.$el.getBoundingClientRect();
   }
 
+  find(selector) {
+    return $dom(this.$el.querySelector(selector));
+  }
+
   findAll(selector) {
     return this.$el.querySelectorAll(selector);
   }
