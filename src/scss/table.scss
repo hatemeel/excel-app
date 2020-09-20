@@ -4,9 +4,10 @@
   overflow: auto;
 
   .row {
+    position: relative;
     display: flex;
     width: max-content;
-    min-height: 20px;
+    min-height: $cell-size-y;
     height: $cell-size-y;
 
     &:first-child {
@@ -34,9 +35,30 @@
     &-data {
       display: flex;
     }
+
+    &-resize {
+      width: $cell-size-x;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      cursor: n-resize;
+
+      &.active {
+        &:after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -1px;
+          width: 100vw;
+          border-bottom: 1px solid lighten($active-color, 10);
+        }
+      }
+    }
   }
 
   .column {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,6 +69,39 @@
     border-top: unset;
     border-left: unset;
     color: lighten($dark-color, 40);
+    user-select: none;
+
+    &-resize {
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      cursor: e-resize;
+
+      &.active {
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: -1px;
+          height: 100vh;
+          border-right: 1px solid lighten($active-color, 10);
+        }
+      }
+    }
+  }
+
+  .column-resize,
+  .row-resize {
+    position: absolute;
+    z-index: 3;
+    background-color: lighten($active-color, 10);
+    opacity: 0;
+
+    &:hover,
+    &.active {
+      opacity: 1;
+    }
   }
 
   .cell {
@@ -57,12 +112,14 @@
     border: 1px solid lighten($border-color, 7.5);
     border-top: unset;
     border-left: unset;
+    cursor: default;
 
     &:focus,
     &.selected {
       &:before {
         content: '';
         position: absolute;
+        z-index: -1;
         top: 0;
         right: 0;
         bottom: 0;
