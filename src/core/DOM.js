@@ -84,6 +84,11 @@ class DOM {
       },
     };
   }
+
+  focus() {
+    this.$el.focus();
+    return this;
+  }
 }
 
 export function $dom(selector) {

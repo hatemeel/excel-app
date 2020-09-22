@@ -114,7 +114,6 @@
     border-left: unset;
     cursor: default;
 
-    &:focus,
     &.selected {
       &:before {
         content: '';

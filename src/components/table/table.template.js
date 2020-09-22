@@ -9,6 +9,7 @@ const toCell = (rowIndex) => {
 			class="cell"
 			contenteditable
 			data-column="${columnIndex}"
+			data-type="cell"
 			data-id="${rowIndex + 1}:${columnIndex + 1}"
 		></div>
 	`;
