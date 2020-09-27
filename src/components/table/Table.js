@@ -8,9 +8,11 @@ import { TableSelection } from './TableSelection';
 export class Table extends ExcelComponent {
   static className = 'excel__table';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
-      listeners: ['mousedown', 'keydown'],
+      name: 'Table',
+      listeners: ['mousedown', 'keydown', 'input'],
+      ...options,
     });
 
     this.resizing = false;
@@ -27,8 +29,21 @@ export class Table extends ExcelComponent {
   init() {
     super.init();
 
-    const cell = this.$root.find(`[data-id="1:1"]`);
-    this.selection.select(cell);
+    const $cell = this.$root.find(`[data-id="1:1"]`);
+    this.selectCell($cell);
+
+    this.$on('formula:input', (data) => {
+      this.selection.current.text(data);
+    });
+
+    this.$on('formula:submit', () => {
+      this.selection.current.focus();
+    });
+  }
+
+  selectCell($cell) {
+    this.selection.select($cell);
+    this.$emit('table:select', $cell);
   }
 
   onMousedown(event) {
@@ -38,7 +53,7 @@ export class Table extends ExcelComponent {
       const $target = $dom(event.target);
 
       if (!event.shiftKey) {
-        this.selection.select($target);
+        this.selectCell($target);
       } else {
         const $cells = matrix($target, this.selection.current).map((id) =>
           this.$root.find(`[data-id="${id}"]`)
@@ -64,8 +79,12 @@ export class Table extends ExcelComponent {
       event.preventDefault();
       const id = this.selection.current.data.id.split(':');
       const $next = this.$root.find(getNextSelector(key, id));
-      this.selection.select($next);
+      this.selectCell($next);
     }
+  }
+
+  onInput(event) {
+    this.$emit('table:input', $dom(event.target));
   }
 }
 
