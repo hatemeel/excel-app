@@ -114,7 +114,6 @@
     border-left: unset;
     cursor: default;
 
-    &:focus,
     &.selected {
       &:before {
         content: '';
@@ -127,9 +126,6 @@
         border: 1px solid $active-color;
         box-shadow: 0 0 0 2px rgba($active-color, 0.25);
       }
-    }
-
-    &.selected {
     }
   }
 }

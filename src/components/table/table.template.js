@@ -3,29 +3,33 @@ const CODES = {
   Z: 90,
 };
 
-const toCell = (_, index) => {
-  return `
-		<div class="cell" contenteditable data-column="${index}"></div>
+const toCell = (rowIndex) => {
+  return (_, columnIndex) => `
+		<div
+			class="cell"
+			contenteditable
+			data-column="${columnIndex}"
+			data-type="cell"
+			data-id="${rowIndex + 1}:${columnIndex + 1}"
+		></div>
 	`;
 };
 
-const toColumn = (col, index) => {
+const toColumn = (columnName, columnIndex) => {
   return `
-		<div class="column" data-type="resizable" data-column="${index}">
-			${col}
+		<div class="column" data-type="resizable" data-column="${columnIndex}">
+			<span>${columnName}</span>
 			<div class="column-resize" data-resize="column"></div>
 		</div>
 	`;
 };
 
-const createRow = (index, content = '') => {
+const createRow = (rowIndex, content = '') => {
   return `
-		<div class="row" ${index ? 'data-type="resizable"' : ''}>
-			<div class="row-info">
-				${index || ''}
-			</div>
-			${index ? '<div class="row-resize" data-resize="row"></div>' : ''}
+		<div class="row" ${rowIndex ? 'data-type="resizable"' : ''}>
+			<div class="row-info">${rowIndex || ''}</div>
 			<div class="row-data">${content}</div>
+			${rowIndex ? '<div class="row-resize" data-resize="row"></div>' : ''}
 		</div>
 	`;
 };
@@ -42,10 +46,14 @@ export const createTable = (rowsCount = 50) => {
 
   rows.push(createRow(null, cols));
 
-  for (let i = 0; i < rowsCount; i++) {
-    const cells = Array(colsCount).fill('').map(toChar).map(toCell).join('');
+  for (let rowIndex = 0; rowIndex < rowsCount; rowIndex++) {
+    const cells = Array(colsCount)
+      .fill('')
+      .map(toChar)
+      .map(toCell(rowIndex))
+      .join('');
 
-    rows.push(createRow(i + 1, cells));
+    rows.push(createRow(rowIndex + 1, cells));
   }
 
   return rows.join('');

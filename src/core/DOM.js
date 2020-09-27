@@ -9,11 +9,28 @@ class DOM {
   html(html) {
     if (typeof html === 'string') {
       this.$el.innerHTML = html;
-
       return this;
     }
 
     return this.$el.outerHTML.trim();
+  }
+
+  text(value) {
+    if (typeof value === 'string') {
+      if (this.$el.tagName.toLowerCase() === 'input') {
+        return (this.$el.value = value);
+      } else {
+        this.$el.textContent = value;
+      }
+
+      return this;
+    }
+
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim();
+    }
+
+    return this.$el.textContent.trim();
   }
 
   clear() {
@@ -55,6 +72,10 @@ class DOM {
     return this.$el.getBoundingClientRect();
   }
 
+  find(selector) {
+    return $dom(this.$el.querySelector(selector));
+  }
+
   findAll(selector) {
     return this.$el.querySelectorAll(selector);
   }
@@ -79,6 +100,16 @@ class DOM {
         return this;
       },
     };
+  }
+
+  focus() {
+    this.$el.focus();
+    return this;
+  }
+
+  blur() {
+    this.$el.blur();
+    return this;
   }
 }
 
