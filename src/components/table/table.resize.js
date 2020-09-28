@@ -55,7 +55,8 @@ export function resizeHandler($root, event) {
         document.onmouseup = null;
 
         resolve({
-          value,
+          value: (value > 0 && value) || 1,
+          resize,
           id: resize === 'column' ? $parent.data.column : $parent.data.row,
         });
       };
