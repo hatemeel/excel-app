@@ -3,7 +3,7 @@ const toCell = (rowIndex) => {
 		<div
 			class="cell"
 			contenteditable
-			data-column="${columnIndex}"
+			data-column="${columnIndex + 1}"
 			data-type="cell"
 			data-id="${rowIndex + 1}:${columnIndex + 1}"
 		></div>
@@ -12,7 +12,7 @@ const toCell = (rowIndex) => {
 
 const toColumn = (columnName, columnIndex) => {
   return `
-		<div class="column" data-type="resizable" data-column="${columnIndex}">
+		<div class="column" data-type="resizable" data-column="${columnIndex + 1}">
 			<span>${columnName}</span>
 			<div class="column-resize" data-resize="column"></div>
 		</div>
@@ -21,7 +21,11 @@ const toColumn = (columnName, columnIndex) => {
 
 const createRow = (rowIndex, content = '') => {
   return `
-		<div class="row" ${rowIndex ? 'data-type="resizable"' : ''}>
+		<div
+			class="row"
+			${rowIndex ? 'data-type="resizable"' : ''} 
+			data-row="${rowIndex}"
+		>
 			<div class="row-info">${rowIndex || ''}</div>
 			<div class="row-data">${content}</div>
 			${rowIndex ? '<div class="row-resize" data-resize="row"></div>' : ''}
@@ -43,7 +47,7 @@ const toChar = (_, index) => {
 };
 
 export const createTable = (rowsCount = 50) => {
-  const colsCount = 25;
+  const colsCount = 50;
   const rows = [];
 
   const cols = Array(colsCount).fill('').map(toChar).map(toColumn).join('');

@@ -1,5 +1,6 @@
 import { $dom } from '../../core/DOM';
 import { ExcelComponent } from '../../core/ExcelComponent';
+import { tableResizeAction } from '../../redux/actions';
 import { isCell, matrix, shouldResize } from './table.functions';
 import { resizeHandler } from './table.resize';
 import { createTable } from './table.template';
@@ -46,9 +47,18 @@ export class Table extends ExcelComponent {
     this.$emit('table:select', $cell);
   }
 
+  async resizeTable(event) {
+    try {
+      const data = await resizeHandler(this.$root, event);
+      this.$dispatch(tableResizeAction(data));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   onMousedown(event) {
     if (shouldResize(event)) {
-      resizeHandler(this.$root, event);
+      this.resizeTable(event);
     } else if (isCell(event)) {
       const $target = $dom(event.target);
 
