@@ -1,8 +1,3 @@
-const CODES = {
-  A: 65,
-  Z: 90,
-};
-
 const toCell = (rowIndex) => {
   return (_, columnIndex) => `
 		<div
@@ -35,11 +30,20 @@ const createRow = (rowIndex, content = '') => {
 };
 
 const toChar = (_, index) => {
-  return String.fromCharCode(CODES.A + index);
+  let colName = '';
+  let dividend = Math.floor(Math.abs(index + 1));
+  let rest;
+
+  while (dividend > 0) {
+    rest = (dividend - 1) % 26;
+    colName = String.fromCharCode(65 + rest) + colName;
+    dividend = parseInt((dividend - rest) / 26);
+  }
+  return colName;
 };
 
 export const createTable = (rowsCount = 50) => {
-  const colsCount = CODES.Z - CODES.A + 1;
+  const colsCount = 25;
   const rows = [];
 
   const cols = Array(colsCount).fill('').map(toChar).map(toColumn).join('');
