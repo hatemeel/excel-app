@@ -17,7 +17,7 @@ export const createStore = (rootReducer, initialState = {}) => {
       listeners.map((listener) => listener(state));
     },
     getState() {
-      return { ...state };
+      return JSON.parse(JSON.stringify(state));
     },
   };
 };

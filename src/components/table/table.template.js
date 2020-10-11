@@ -1,17 +1,26 @@
+import { DEFAULT_STYLES } from '../../constants';
+import { toInlineStyles } from '../../core/utils';
+
 const DEFAULT_COLUMN_WIDTH = 120;
 const DEFAULT_ROW_HEIGHT = 24;
 
-const toCell = (rowIndex, { columnSizeState }) => {
-  return (_, columnIndex) => `
-		<div
-			class="cell"
-			contenteditable
-			data-column="${columnIndex + 1}"
-			data-type="cell"
-			data-id="${rowIndex + 1}:${columnIndex + 1}"
-			style="width: ${columnSizeState[columnIndex + 1] || DEFAULT_COLUMN_WIDTH}px"
-		></div>
-	`;
+const toCell = (rowIndex, { columnSizeState, dataState, stylesState }) => {
+  return (_, columnIndex) => {
+    const id = `${rowIndex + 1}:${columnIndex + 1}`;
+    const width = columnSizeState[columnIndex + 1] || DEFAULT_COLUMN_WIDTH;
+    const styles = toInlineStyles({ ...stylesState[id], ...DEFAULT_STYLES });
+
+    return `
+			<div
+				class="cell"
+				contenteditable
+				data-column="${columnIndex + 1}"
+				data-type="cell"
+				data-id="${id}"
+				style="width: ${width}px; ${styles}"
+			>${dataState[id] || ''}</div>
+		`;
+  };
 };
 
 const toColumn = ({ columnIndex, columnName, width }) => {

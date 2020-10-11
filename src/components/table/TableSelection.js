@@ -13,6 +13,10 @@ export class TableSelection {
     $el.focus().class.add(TableSelection.selectedClassName);
   }
 
+  get selectedIds() {
+    return this.group.map(($el) => $el.data.id);
+  }
+
   selectGroup($group = []) {
     this.clearSelection();
     this.group = $group;
@@ -22,5 +26,11 @@ export class TableSelection {
   clearSelection() {
     this.group.map((el) => el.class.remove(TableSelection.selectedClassName));
     this.group.splice(0, this.group.length);
+  }
+
+  applyStyle(style) {
+    this.group.map(($el) => {
+      $el.css(style);
+    });
   }
 }

@@ -26,3 +26,34 @@ export const storage = (key, data) => {
 
   localStorage.setItem(key, JSON.stringify(data));
 };
+
+export const isEqual = (a, b) => {
+  if (a instanceof Object && b instanceof Object) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+
+  return a === b;
+};
+
+export const camelToDashCase = (str) => {
+  return str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
+};
+
+export const toInlineStyles = (styles = {}) => {
+  return Object.keys(styles)
+    .map((key) => `${camelToDashCase(key)}: ${styles[key]}`)
+    .join('; ');
+};
+
+export const debounce = (fn, wait) => {
+  let timeout;
+
+  return (...args) => {
+    const later = () => {
+      clearTimeout(timeout);
+      fn(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};

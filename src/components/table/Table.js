@@ -1,6 +1,12 @@
+import { DEFAULT_STYLES } from '../../constants';
 import { $dom } from '../../core/DOM';
 import { ExcelComponent } from '../../core/ExcelComponent';
-import { tableResizeAction } from '../../redux/actions';
+import {
+  applyStyleAction,
+  changeStylesAction,
+  changeTextAction,
+  tableResizeAction,
+} from '../../redux/actions';
 import { isCell, matrix, shouldResize } from './table.functions';
 import { resizeHandler } from './table.resize';
 import { createTable } from './table.template';
@@ -33,18 +39,29 @@ export class Table extends ExcelComponent {
     const $cell = this.$root.find(`[data-id="1:1"]`);
     this.selectCell($cell);
 
-    this.$on('formula:input', (data) => {
-      this.selection.current.text(data);
+    this.$on('formula:input', (value) => {
+      this.selection.current.text(value);
+
+      this.updateTextInStore(value);
     });
 
     this.$on('formula:submit', () => {
       this.selection.current.focus();
+    });
+
+    this.$on('toolbar:applyStyle', (value) => {
+      this.selection.applyStyle(value);
+      this.$dispatch(
+        applyStyleAction({ value, ids: this.selection.selectedIds })
+      );
     });
   }
 
   selectCell($cell) {
     this.selection.select($cell);
     this.$emit('table:select', $cell);
+    const styles = $cell.getStyles(...Object.keys(DEFAULT_STYLES));
+    this.$dispatch(changeStylesAction(styles));
   }
 
   async resizeTable(event) {
@@ -94,7 +111,13 @@ export class Table extends ExcelComponent {
   }
 
   onInput(event) {
-    this.$emit('table:input', $dom(event.target));
+    this.updateTextInStore($dom(event.target).text());
+  }
+
+  updateTextInStore(value) {
+    this.$dispatch(
+      changeTextAction({ id: this.selection.current.data.id, value })
+    );
   }
 }
 
