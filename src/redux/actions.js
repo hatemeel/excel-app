@@ -4,6 +4,7 @@ import {
   TABLE_RESIZE,
   APPLY_STYLE,
   CHANGE_TITLE,
+  UPDATE_LAST_ACTIVITY_DATE,
 } from './types';
 
 export const tableResizeAction = (data) => {
@@ -38,5 +39,11 @@ export const changeTitleAction = (data) => {
   return {
     type: CHANGE_TITLE,
     data,
+  };
+};
+
+export const updateLastActivityDateAction = () => {
+  return {
+    type: UPDATE_LAST_ACTIVITY_DATE,
   };
 };
