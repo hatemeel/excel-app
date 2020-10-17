@@ -1,6 +1,7 @@
 import { DEFAULT_STYLES } from '../../constants';
 import { $dom } from '../../core/DOM';
 import { ExcelComponent } from '../../core/ExcelComponent';
+import { parse } from '../../core/parse';
 import {
   applyStyleAction,
   changeStylesAction,
@@ -40,8 +41,7 @@ export class Table extends ExcelComponent {
     this.selectCell($cell);
 
     this.$on('formula:input', (value) => {
-      this.selection.current.text(value);
-
+      this.selection.current.attr('data-value', value).text(parse(value));
       this.updateTextInStore(value);
     });
 

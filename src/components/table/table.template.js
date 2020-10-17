@@ -1,4 +1,5 @@
 import { DEFAULT_STYLES } from '../../constants';
+import { parse } from '../../core/parse';
 import { toInlineStyles } from '../../core/utils';
 
 const DEFAULT_COLUMN_WIDTH = 120;
@@ -17,8 +18,9 @@ const toCell = (rowIndex, { columnSizeState, dataState, stylesState }) => {
 				data-column="${columnIndex + 1}"
 				data-type="cell"
 				data-id="${id}"
+				data-value="${dataState[id] || ''}"
 				style="width: ${width}px; ${styles}"
-			>${dataState[id] || ''}</div>
+			>${parse(dataState[id]) || ''}</div>
 		`;
   };
 };

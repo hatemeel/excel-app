@@ -16,7 +16,7 @@ class DOM {
   }
 
   text(value) {
-    if (typeof value === 'string') {
+    if (value !== undefined) {
       if (this.$el.tagName.toLowerCase() === 'input') {
         return (this.$el.value = value);
       } else {
