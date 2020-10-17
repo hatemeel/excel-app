@@ -1,27 +1,55 @@
-const toCell = (rowIndex) => {
-  return (_, columnIndex) => `
+import { DEFAULT_STYLES } from '../../constants';
+import { parse } from '../../core/parse';
+import { toInlineStyles } from '../../core/utils';
+
+const DEFAULT_COLUMN_WIDTH = 120;
+const DEFAULT_ROW_HEIGHT = 24;
+
+const toCell = (rowIndex, { columnSizeState, dataState, stylesState }) => {
+  return (_, columnIndex) => {
+    const id = `${rowIndex + 1}:${columnIndex + 1}`;
+    const width = columnSizeState[columnIndex + 1] || DEFAULT_COLUMN_WIDTH;
+    const styles = toInlineStyles({ ...stylesState[id], ...DEFAULT_STYLES });
+
+    return `
+			<div
+				class="cell"
+				contenteditable
+				data-column="${columnIndex + 1}"
+				data-type="cell"
+				data-id="${id}"
+				data-value="${dataState[id] || ''}"
+				style="width: ${width}px; ${styles}"
+			>${parse(dataState[id]) || ''}</div>
+		`;
+  };
+};
+
+const toColumn = ({ columnIndex, columnName, width }) => {
+  return `
 		<div
-			class="cell"
-			contenteditable
-			data-column="${columnIndex}"
-			data-type="cell"
-			data-id="${rowIndex + 1}:${columnIndex + 1}"
-		></div>
-	`;
+			class="column"
+			data-type="resizable"
+			data-column="${columnIndex + 1}"
+			style="width: ${width}"
+		>
+  		<span>${columnName}</span>
+  		<div class="column-resize" data-resize="column"></div>
+  	</div>
+  `;
 };
 
-const toColumn = (columnName, columnIndex) => {
+const createRow = (rowIndex, content = '', { rowSizeState } = {}) => {
   return `
-		<div class="column" data-type="resizable" data-column="${columnIndex}">
-			<span>${columnName}</span>
-			<div class="column-resize" data-resize="column"></div>
-		</div>
-	`;
-};
-
-const createRow = (rowIndex, content = '') => {
-  return `
-		<div class="row" ${rowIndex ? 'data-type="resizable"' : ''}>
+		<div
+			class="row"
+			${rowIndex ? 'data-type="resizable"' : ''} 
+			data-row="${rowIndex || ''}"
+			${
+        rowIndex &&
+        `style="height: ${rowSizeState[rowIndex] || DEFAULT_ROW_HEIGHT}px"`
+      }
+		>
 			<div class="row-info">${rowIndex || ''}</div>
 			<div class="row-data">${content}</div>
 			${rowIndex ? '<div class="row-resize" data-resize="row"></div>' : ''}
@@ -42,11 +70,26 @@ const toChar = (_, index) => {
   return colName;
 };
 
-export const createTable = (rowsCount = 50) => {
-  const colsCount = 25;
+const formColumnData = ({ columnSizeState }) => {
+  return (columnName, columnIndex) => {
+    return {
+      columnName,
+      columnIndex,
+      width: (columnSizeState[columnIndex + 1] || DEFAULT_COLUMN_WIDTH) + 'px',
+    };
+  };
+};
+
+export const createTable = ({ rowsCount = 50, state = {} } = {}) => {
+  const colsCount = 50;
   const rows = [];
 
-  const cols = Array(colsCount).fill('').map(toChar).map(toColumn).join('');
+  const cols = Array(colsCount)
+    .fill('')
+    .map(toChar)
+    .map(formColumnData(state))
+    .map(toColumn)
+    .join('');
 
   rows.push(createRow(null, cols));
 
@@ -54,10 +97,10 @@ export const createTable = (rowsCount = 50) => {
     const cells = Array(colsCount)
       .fill('')
       .map(toChar)
-      .map(toCell(rowIndex))
+      .map(toCell(rowIndex, state))
       .join('');
 
-    rows.push(createRow(rowIndex + 1, cells));
+    rows.push(createRow(rowIndex + 1, cells, state));
   }
 
   return rows.join('');

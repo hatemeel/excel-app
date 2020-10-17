@@ -16,7 +16,7 @@ class DOM {
   }
 
   text(value) {
-    if (typeof value === 'string') {
+    if (value !== undefined) {
       if (this.$el.tagName.toLowerCase() === 'input') {
         return (this.$el.value = value);
       } else {
@@ -85,6 +85,13 @@ class DOM {
     return Object.keys(styles).length ? this : getComputedStyle(this.$el);
   }
 
+  getStyles(...styles) {
+    return styles.reduce((acc, s) => {
+      acc[s] = this.$el.style[s];
+      return acc;
+    }, {});
+  }
+
   get class() {
     return {
       add: (className) => {
@@ -100,6 +107,14 @@ class DOM {
         return this;
       },
     };
+  }
+
+  attr(name, value) {
+    if (value !== undefined) {
+      this.$el.setAttribute(name, value);
+      return this;
+    }
+    return this.$el.getAttribute(name);
   }
 
   focus() {
