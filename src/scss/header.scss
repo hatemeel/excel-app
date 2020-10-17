@@ -21,6 +21,8 @@
   }
 
   .button {
+    text-decoration: none;
+
     &.button-delete {
       @include button(red);
     }

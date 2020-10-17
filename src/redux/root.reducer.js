@@ -4,6 +4,7 @@ import {
   TABLE_RESIZE,
   APPLY_STYLE,
   CHANGE_TITLE,
+  UPDATE_LAST_ACTIVITY_DATE,
 } from './types';
 
 export const rootReducer = (state, action) => {
@@ -52,6 +53,12 @@ export const rootReducer = (state, action) => {
       return {
         ...state,
         title: action.data,
+      };
+
+    case UPDATE_LAST_ACTIVITY_DATE:
+      return {
+        ...state,
+        lastActivity: new Date().toISOString(),
       };
 
     default:

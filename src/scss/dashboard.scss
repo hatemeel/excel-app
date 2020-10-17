@@ -53,9 +53,11 @@
         }
       }
 
-      tr {
-        &:hover {
-          background-color: $light-color;
+      tbody {
+        tr {
+          &:hover {
+            background-color: $light-color;
+          }
         }
       }
 
@@ -63,6 +65,11 @@
         padding: 15px 10px;
         font-size: 18px;
         border-top: 1px solid $border-color;
+        white-space: nowrap;
+
+        &:last-child {
+          font-size: 14px;
+        }
 
         a {
           color: $active-color;

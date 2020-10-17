@@ -2,6 +2,7 @@ import { DEFAULT_TITLE } from '../../constants';
 import { $dom } from '../../core/DOM';
 import { ExcelComponent } from '../../core/ExcelComponent';
 import { changeTitleAction } from '../../redux/actions';
+import { ActiveRoute } from '../../core/routes/ActiveRoute';
 
 export class Header extends ExcelComponent {
   static className = 'excel__header';
@@ -9,7 +10,7 @@ export class Header extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Header',
-      listeners: ['input'],
+      listeners: ['input', 'click'],
       ...options,
     });
   }
@@ -25,11 +26,11 @@ export class Header extends ExcelComponent {
 			/>
 
 			<div>
-				<button class="button button-delete">
+				<button class="button button-delete" data-button="delete">
 					<i class="ri-delete-bin-7-line"></i>
 				</button>
 
-				<button class="button button-exit">
+				<button class="button button-exit" data-button="exit">
 					<i class="ri-logout-box-r-line"></i>
 				</button>
 			</div>
@@ -39,5 +40,22 @@ export class Header extends ExcelComponent {
   onInput(event) {
     const $target = $dom(event.target);
     this.$dispatch(changeTitleAction($target.text()));
+  }
+
+  onClick(event) {
+    const $target = $dom(event.target);
+
+    switch ($target.data.button) {
+      case 'delete':
+        if (confirm('Do you really want to delete this table?')) {
+          localStorage.removeItem(`excel:${ActiveRoute.param}`);
+          ActiveRoute.navigate('');
+        }
+        break;
+
+      case 'exit':
+        ActiveRoute.navigate('');
+        break;
+    }
   }
 }

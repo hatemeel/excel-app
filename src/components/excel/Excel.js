@@ -1,10 +1,10 @@
 import { $dom } from '../../core/DOM';
 import { Emitter } from '../../core/Emitter';
 import { StoreSubscriber } from '../../core/StoreSubscriber';
+import { updateLastActivityDateAction } from '../../redux/actions';
 
 export class Excel {
-  constructor(selector, options) {
-    this.$el = $dom(selector);
+  constructor(options) {
     this.components = options.components || [];
     this.store = options.store;
     this.emitter = new Emitter();
@@ -22,11 +22,6 @@ export class Excel {
     this.components = this.components.map((Component) => {
       const $el = $dom.create('div', Component.className);
       const component = new Component($el, componentOptions);
-
-      if (component.name) {
-        window[`C_${component.name}`] = component;
-      }
-
       $el.html(component.toHTML());
       $root.append($el);
       return component;
@@ -35,8 +30,8 @@ export class Excel {
     return $root;
   }
 
-  render() {
-    this.$el.append(this.getRoot());
+  init() {
+    this.store.dispatch(updateLastActivityDateAction());
     this.subscriber.subscribeComponents(this.components);
     this.components.forEach((component) => component.init());
   }

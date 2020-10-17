@@ -1,5 +1,5 @@
 import { DEFAULT_STYLES, DEFAULT_TITLE } from '../constants';
-import { storage } from '../core/utils';
+import { clone, storage } from '../core/utils';
 
 const defaultState = {
   title: DEFAULT_TITLE,
@@ -9,6 +9,8 @@ const defaultState = {
   stylesState: {},
   currentText: '',
   currentStyles: DEFAULT_STYLES,
+  lastActivity: new Date().toISOString(),
 };
 
-export const initialState = storage('excel-state') || defaultState;
+export const initialState = (storageName) =>
+  storage(storageName) || clone(defaultState);
