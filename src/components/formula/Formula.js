@@ -21,6 +21,10 @@ export class Formula extends ExcelComponent {
     this.$on('table:select', ($cell) => {
       this.$formula.text($cell.data.value);
     });
+
+    this.$on('table:autosum', (value) => {
+      this.$formula.text(value);
+    });
   }
 
   toHTML() {

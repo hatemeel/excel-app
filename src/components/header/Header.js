@@ -3,6 +3,7 @@ import { $dom } from '../../core/DOM';
 import { ExcelComponent } from '../../core/ExcelComponent';
 import { changeTitleAction } from '../../redux/actions';
 import { ActiveRoute } from '../../core/routes/ActiveRoute';
+import { exportToExcel } from '../../core/utils';
 
 export class Header extends ExcelComponent {
   static className = 'excel__header';
@@ -26,6 +27,10 @@ export class Header extends ExcelComponent {
 			/>
 
 			<div>
+				<button class="button button-export" data-button="export">
+					<i class="ri-file-download-line"></i>
+				</button>
+
 				<button class="button button-delete" data-button="delete">
 					<i class="ri-delete-bin-7-line"></i>
 				</button>
@@ -46,6 +51,9 @@ export class Header extends ExcelComponent {
     const $target = $dom(event.target);
 
     switch ($target.data.button) {
+      case 'export':
+        exportToExcel(ActiveRoute.param);
+        break;
       case 'delete':
         if (confirm('Do you really want to delete this table?')) {
           localStorage.removeItem(`excel:${ActiveRoute.param}`);

@@ -23,6 +23,10 @@
   .button {
     text-decoration: none;
 
+    &.button-export {
+      @include button(#ffc107);
+    }
+
     &.button-delete {
       @include button(red);
     }

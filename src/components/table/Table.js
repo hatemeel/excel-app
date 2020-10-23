@@ -2,6 +2,7 @@ import { DEFAULT_STYLES } from '../../constants';
 import { $dom } from '../../core/DOM';
 import { ExcelComponent } from '../../core/ExcelComponent';
 import { parse } from '../../core/parse';
+import { parseCellId } from '../../core/utils';
 import {
   applyStyleAction,
   changeStylesAction,
@@ -55,6 +56,14 @@ export class Table extends ExcelComponent {
         applyStyleAction({ value, ids: this.selection.selectedIds })
       );
     });
+
+    this.$on('toolbar:func:sum', () => {
+      const sum = this.selection.group.reduce(
+        (acc, $el) => acc + Number($el.text()),
+        0
+      );
+      this.$emit('table:autosum', sum);
+    });
   }
 
   selectCell($cell) {
@@ -62,6 +71,8 @@ export class Table extends ExcelComponent {
     this.$emit('table:select', $cell);
     const styles = $cell.getStyles(...Object.keys(DEFAULT_STYLES));
     this.$dispatch(changeStylesAction(styles));
+
+    markActivePos(this.$root, $cell.data.id);
   }
 
   async resizeTable(event) {
@@ -121,6 +132,20 @@ export class Table extends ExcelComponent {
       changeTextAction({ id: this.selection.current.data.id, value })
     );
   }
+}
+
+function markActivePos($root, cellId) {
+  const { row, col } = parseCellId(cellId, false);
+
+  $root
+    .findAll(`[data-row] .row-info`)
+    .forEach((el) => $dom(el).class.remove('active'));
+  $root
+    .findAll(`[data-column]`)
+    .forEach((el) => $dom(el).class.remove('active'));
+
+  $root.find(`[data-row="${row}"] .row-info`).class.add('active');
+  $root.find(`[data-column="${col}"]`).class.add('active');
 }
 
 function getNextSelector(key, [row, col]) {

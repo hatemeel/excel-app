@@ -1,12 +1,13 @@
 const toButton = (button) => {
   const meta = `
 		data-type="tool-button"
-		data-value='${JSON.stringify(button.value)}'
+		${button.value ? `data-value='${JSON.stringify(button.value)}'` : ''}
+		${button.function ? `data-function='${button.function}'` : ''}
 	`;
 
   return `
 		<button
-			class="button ${button.active && 'active'}"
+			class="button ${(button.active && 'active') || ''} ${button.class || ''}"
 			${meta}
 		>
 			<i class="${button.icon}"></i>
@@ -43,6 +44,7 @@ export const createToolbar = (state) => {
       value: {
         fontWeight: state['fontWeight'] === 'bold' ? 'normal' : 'bold',
       },
+      class: 'space-left',
     },
     {
       icon: 'ri-italic',
@@ -58,6 +60,11 @@ export const createToolbar = (state) => {
         textDecoration:
           state['textDecoration'] === 'underline' ? 'none' : 'underline',
       },
+    },
+    {
+      icon: 'ri-functions',
+      function: 'sum',
+      class: 'space-left',
     },
   ];
 
