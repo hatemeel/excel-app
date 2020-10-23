@@ -111,7 +111,9 @@ export class Table extends ExcelComponent {
   }
 
   onInput(event) {
-    this.updateTextInStore($dom(event.target).text());
+    const value = $dom(event.target).text();
+    this.selection.current.attr('data-value', value).text(parse(value));
+    this.updateTextInStore(value);
   }
 
   updateTextInStore(value) {
