@@ -1,9 +1,10 @@
-import { DEFAULT_STYLES } from '../../constants';
+import {
+  DEFAULT_STYLES,
+  DEFAULT_COLUMN_WIDTH,
+  DEFAULT_ROW_HEIGHT,
+} from '../../constants';
 import { parse } from '../../core/parse';
 import { toInlineStyles } from '../../core/utils';
-
-const DEFAULT_COLUMN_WIDTH = 120;
-const DEFAULT_ROW_HEIGHT = 24;
 
 const toCell = (rowIndex, { columnSizeState, dataState, stylesState }) => {
   return (_, columnIndex) => {
