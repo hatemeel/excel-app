@@ -80,8 +80,11 @@ const formColumnData = ({ columnSizeState }) => {
   };
 };
 
-export const createTable = ({ rowsCount = 50, state = {} } = {}) => {
-  const colsCount = 50;
+export const createTable = ({
+  rowsCount = 50,
+  colsCount = 50,
+  state = {},
+} = {}) => {
   const rows = [];
 
   const cols = Array(colsCount)
